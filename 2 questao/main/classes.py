@@ -26,22 +26,29 @@ class Base(Locators):
         self.wait.until(ec.url_to_be(url), errorText)
         assert self.driver.current_url == url
 
+    def scroll(self):
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        sleep(1)
+
     def sair(self):
         sleep(3)
         self.driver.quit()
 
 class TestaPagCadastro(Base):
     def testaFormCadastro(self):
+        self.scroll()
         self.clickElement(self.SINGUPBUTTON)
         email = self.find(self.INPUTEMAIL)
         senha = self.find(self.INPUTSENHA)
         confirmSenha = self.find(self.INPUTCONFIRMARSENHA)
-
+        
         email.send_keys('testacont')
+        self.scroll()
         self.clickElement(self.SINGUPBUTTON)
         email.send_keys('@gmail.com')
         senha.send_keys('12345678')
         confirmSenha.send_keys('12345678')
+        self.scroll()
         self.clickElement(self.SINGUPBUTTON)
         self.clickElement(self.TERMSOFUSEBUTTON)
         email.clear()
@@ -57,6 +64,7 @@ class TestaPagCadastro(Base):
         email.send_keys('testacontu@gmail.com')
         senha.send_keys('1234')
         confirmSenha.send_keys('1233')
+        self.scroll()
         self.clickElement(self.TERMSOFUSEBUTTON)
         self.clickElement(self.SINGUPBUTTON)
         assert 'Campos de senha estão diferentes.' in self.find(self.WRONGPASSTEXT).text 
@@ -73,6 +81,7 @@ class TestaPagCadastro(Base):
         email.send_keys('joao15@gmail.com')
         senha.send_keys('1234')
         confirmSenha.send_keys('1234')
+        self.scroll()
         self.clickElement(self.TERMSOFUSEBUTTON)
         self.clickElement(self.SINGUPBUTTON)
         assert 'E-mail já esta em uso.' in self.find(self.WRONGPASSTEXT).text 
@@ -91,8 +100,7 @@ class Cadastro(TestaPagCadastro):
         self.sendKeys(self.INPUTEMAIL, email)
         self.sendKeys(self.INPUTSENHA, senha)
         self.sendKeys(self.INPUTCONFIRMARSENHA, senha)
-        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        sleep(1)
+        self.scroll()
         self.clickElement(self.TERMSOFUSEBUTTON)
         self.clickElement(self.SINGUPBUTTON)
     
