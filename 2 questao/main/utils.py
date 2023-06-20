@@ -28,11 +28,11 @@ class PageCadastro():
     INPUTCONFIRMARSENHA = (By.ID, 'repeatPassword')
     TERMSOFUSEBUTTON = (By.ID, 'termsOfuse')
     FORMSINGUP = (By.ID, 'signUp')
+    SINGUPBUTTON = (By.XPATH, '//section/div/form/button')
+    WRONGPASSTEXT = (By.XPATH, '//div/div[3]/span')
     
 class Locators(PageBemVindo, PageObjectives, PageIntro, PageCadastro):
     URL = 'https://www.organizze.com.br'
-    EMAIL = 'joao11@gmail.com'
-    SENHA = '12345678'
     NOME = 'joão'
     COMECEJABUTTON = (By.XPATH, "//div/div[3]/a[2]")
     

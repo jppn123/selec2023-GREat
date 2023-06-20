@@ -4,7 +4,8 @@ Funcionalidade: Fazer cadastro no site Organizze
 
 Cenário: Preencher o formulário de cadastro
     Dado que estou na página de cadastro
-    Quando inserir meu login/senha e aceitar os termos e enviar
+    Quando testar os campos do form e depois apaga-los
+        E inserir meu login/senha e aceitar os termos e enviar
     Então devo ter cadastrado aquela conta e estar em outra página
 
 Cenário: Preencher os requisitos para entrar na página principal

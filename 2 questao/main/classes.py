@@ -29,40 +29,83 @@ class Base(Locators):
     def sair(self):
         sleep(3)
         self.driver.quit()
-         
-class Cadastro(Base):
-    def in_page(self):
+
+class TestaPagCadastro(Base):
+    def testaFormCadastro(self):
+        self.clickElement(self.SINGUPBUTTON)
+        email = self.find(self.INPUTEMAIL)
+        senha = self.find(self.INPUTSENHA)
+        confirmSenha = self.find(self.INPUTCONFIRMARSENHA)
+
+        email.send_keys('testacont')
+        self.clickElement(self.SINGUPBUTTON)
+        email.send_keys('@gmail.com')
+        senha.send_keys('12345678')
+        confirmSenha.send_keys('12345678')
+        self.clickElement(self.SINGUPBUTTON)
+        self.clickElement(self.TERMSOFUSEBUTTON)
+        email.clear()
+        senha.clear()
+        confirmSenha.clear()
+        self.clickElement(self.TERMSOFUSEBUTTON)
+    
+    def senhaDiferente(self):
+        email = self.find(self.INPUTEMAIL)
+        senha = self.find(self.INPUTSENHA)
+        confirmSenha = self.find(self.INPUTCONFIRMARSENHA)
+
+        email.send_keys('testacontu@gmail.com')
+        senha.send_keys('1234')
+        confirmSenha.send_keys('1233')
+        self.clickElement(self.TERMSOFUSEBUTTON)
+        self.clickElement(self.SINGUPBUTTON)
+        assert 'Campos de senha estão diferentes.' in self.find(self.WRONGPASSTEXT).text 
+        email.clear()
+        senha.clear()
+        confirmSenha.clear()
+        self.clickElement(self.TERMSOFUSEBUTTON)
+    
+    def testaEmailRepetido(self):
+        email = self.find(self.INPUTEMAIL)
+        senha = self.find(self.INPUTSENHA)
+        confirmSenha = self.find(self.INPUTCONFIRMARSENHA)
+
+        email.send_keys('joao15@gmail.com')
+        senha.send_keys('1234')
+        confirmSenha.send_keys('1234')
+        self.clickElement(self.TERMSOFUSEBUTTON)
+        self.clickElement(self.SINGUPBUTTON)
+        assert 'E-mail já esta em uso.' in self.find(self.WRONGPASSTEXT).text 
+        email.clear()
+        senha.clear()
+        confirmSenha.clear()
+        self.clickElement(self.TERMSOFUSEBUTTON)
+
+class Cadastro(TestaPagCadastro):
+    def inHomePage(self):
         assert self.driver.title == "Organizze: Controle as suas finanças pessoais"
         self.clickElement(self.COMECEJABUTTON)
         
-    def insertCadastro(self):
-        # self.wait.until(ec.url_to_be(self.CADASTROURL), 'não está na pagina de cadastro')
-        # assert self.driver.current_url == self.CADASTROURL
+    def insertCadastro(self, email, senha):
         self.wait.until(ec.presence_of_element_located(self.INPUTEMAIL), 'não encontrei o input de email')
-        self.sendKeys(self.INPUTEMAIL, self.EMAIL)
-        self.sendKeys(self.INPUTSENHA, self.SENHA)
-        self.sendKeys(self.INPUTCONFIRMARSENHA, self.SENHA)
+        self.sendKeys(self.INPUTEMAIL, email)
+        self.sendKeys(self.INPUTSENHA, senha)
+        self.sendKeys(self.INPUTCONFIRMARSENHA, senha)
         self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         sleep(1)
         self.clickElement(self.TERMSOFUSEBUTTON)
-        self.find(self.FORMSINGUP).submit()
+        self.clickElement(self.SINGUPBUTTON)
     
     def insertNome(self):
-        # self.wait.until(ec.url_to_be(self.BEMVINDOURL), 'não está na pagina de bem vindo')
-        # assert self.driver.current_url == self.BEMVINDOURL
         self.wait.until(ec.presence_of_element_located(self.INPUTNAME), 'não encontrei o input de nome')
         self.sendKeys(self.INPUTNAME, self.NOME)
         self.find(self.FORMWELCOME).submit()
         
     def insertMeta(self):
-        # self.wait.until(ec.url_to_be(self.OBJECTIVESURL), 'não está na pagina de objetivos')
-        # assert self.driver.current_url == self.OBJECTIVESURL
         self.clickElement(self.METABUTTON)
         self.find(self.FORMOBJECTIVES).submit()
     
     def skipIntroducao(self):
-        # self.wait.until(ec.url_to_be(self.INTROURL), 'não está na pagina de introdução')
-        # assert self.driver.current_url == self.INTROURL
         self.clickElement(self.INTROBUTTON)
         sleep(0.2)
         self.clickElement(self.INTROBUTTON)

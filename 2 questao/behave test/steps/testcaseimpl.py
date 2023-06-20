@@ -4,15 +4,24 @@ sys.path.insert(0,"..")
 from main.classes import *
 
 bot = Cadastro()
+EMAIL = 'jppn3@gmail.com'
+SENHA = '12345678'
 
 @given(u'que estou na página de cadastro')
 def impl(context):
     bot.acessarUrl()
-    bot.in_page()
+    bot.inHomePage()
+    bot.waitForUrlBe(bot.CADASTROURL, 'não está na página de cadastro')
+
+@when(u'testar os campos do form e depois apaga-los')
+def impl(context):
+    bot.testaFormCadastro()
+    bot.senhaDiferente()
+    bot.testaEmailRepetido()
 
 @when(u'inserir meu login/senha e aceitar os termos e enviar')
 def impl(context):
-    bot.insertCadastro()
+    bot.insertCadastro(EMAIL, SENHA)
 
 @then(u'devo ter cadastrado aquela conta e estar em outra página')
 def impl(context):
