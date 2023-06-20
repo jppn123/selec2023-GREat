@@ -1,1 +1,3 @@
-# selec2023-GREat
+# Selec2023-GREat
+
+- Atividade proposta como seleção para a GREat
