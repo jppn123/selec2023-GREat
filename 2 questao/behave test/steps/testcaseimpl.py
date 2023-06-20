@@ -4,7 +4,7 @@ sys.path.insert(0,"..")
 from main.classes import *
 
 bot = Cadastro()
-EMAIL = 'jppn4@gmail.com'
+EMAIL = 'jpp1@gmail.com'
 SENHA = '12345678'
 
 @given(u'que estou na página de cadastro')
